@@ -2,7 +2,7 @@ import http.client
 import time
 
 COUNT_IMAGES = 1000
-DOWNLOAD_SITE = "cataas.com"
+DOWNLOAD_URL = "cataas.com"
 
 
 def download_image(conn, image) -> None:
@@ -21,7 +21,7 @@ def write_image(res, image, ext) -> None:
 
 def main() -> None:
     start_time = time.time()
-    conn = http.client.HTTPSConnection(DOWNLOAD_SITE)
+    conn = http.client.HTTPSConnection(DOWNLOAD_URL)
 
     for image in range(1, COUNT_IMAGES + 1):
         download_image(conn, image)

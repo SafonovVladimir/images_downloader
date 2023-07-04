@@ -3,11 +3,11 @@ import threading
 import time
 
 COUNT_IMAGES = 1000
-DOWNLOAD_SITE = "cataas.com"
+DOWNLOAD_URL = "cataas.com"
 
 
-def download_image(image) -> None:
-    conn = http.client.HTTPSConnection(DOWNLOAD_SITE)
+def image_download(image) -> None:
+    conn = http.client.HTTPSConnection(DOWNLOAD_URL)
     conn.request("GET", "/cat")
     res = conn.getresponse()
     ext = res.headers.get("Content-Type").split("/")[1]
@@ -22,19 +22,18 @@ def write_image(res, image, ext) -> None:
 
 
 def main() -> None:
-    threads = list()
+    threads = []
     start_time = time.time()
 
     for image in range(1, COUNT_IMAGES + 1):
-
-        t1 = threading.Thread(target=download_image, args=(image,))
-        t1.start()
-        # time.sleep(0.05)
+        t = threading.Thread(target=image_download, args=(image,))
+        threads.append(t)
+        t.start()
+        time.sleep(0.05)
 
     for thread in threads:
         thread.join()
 
-    time.sleep(1)
     print("Total download time: " f"{str(time.time() - start_time)}")
 
 
