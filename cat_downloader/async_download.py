@@ -4,15 +4,13 @@ import aiohttp
 import asyncio
 import aiofiles
 
-COUNT_IMAGES = 100
+COUNT_IMAGES = 1000
 DOWNLOAD_SITE = "https://cataas.com"
 
 
 async def image_download(session, image):
-
     async with session.get("/cat") as res:
         ext = res.headers.get("Content-Type").split("/")[1]
-
 
         async with aiofiles.open(f"async_images/image{image}.{ext}", "wb") as file:
             print(f"Starting download the image {image}..")
@@ -26,7 +24,6 @@ async def main():
 
     async with aiohttp.ClientSession(DOWNLOAD_SITE) as session:
         for image in range(1, COUNT_IMAGES + 1):
-
             task = asyncio.create_task(image_download(session, image))
             tasks.append(task)
             await asyncio.sleep(0.05)
