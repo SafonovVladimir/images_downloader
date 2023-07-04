@@ -1,10 +1,11 @@
 from asyncio import tasks
-import time
 import aiohttp
 import asyncio
 import aiofiles
 
-COUNT_IMAGES = 1000
+from cat_downloader.sync_download import timer
+
+COUNT_IMAGES = 10
 DOWNLOAD_URL = "https://cataas.com"
 
 
@@ -22,8 +23,8 @@ async def write_image(res, image, ext) -> None:
         print(f"The image {image} is downloaded!")
 
 
+@timer
 async def main() -> None:
-    start_time = time.time()
     tasks = []
 
     async with aiohttp.ClientSession(DOWNLOAD_URL) as session:
@@ -33,8 +34,6 @@ async def main() -> None:
             await asyncio.sleep(0.05)
 
         await asyncio.gather(*tasks)
-
-    print("Total download time: " f"{str(time.time() - start_time)}")
 
 
 if __name__ == "__main__":

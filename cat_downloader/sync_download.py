@@ -1,8 +1,20 @@
 import http.client
 import time
+from functools import wraps
 
-COUNT_IMAGES = 1000
+COUNT_IMAGES = 10
 DOWNLOAD_URL = "cataas.com"
+
+
+def timer(func):
+    @wraps(func)
+    def wrapper():
+        start_time = time.time()
+        retval = func()
+        print("Total download time: " f"{str(time.time() - start_time)} secs")
+        return retval
+
+    return wrapper
 
 
 def download_image(conn, image) -> None:
@@ -19,14 +31,12 @@ def write_image(res, image, ext) -> None:
         print(f"The image {image} is downloaded!")
 
 
+@timer
 def main() -> None:
-    start_time = time.time()
     conn = http.client.HTTPSConnection(DOWNLOAD_URL)
 
     for image in range(1, COUNT_IMAGES + 1):
         download_image(conn, image)
-
-    print("Total download time: " f"{str(time.time() - start_time)}")
 
 
 if __name__ == "__main__":
