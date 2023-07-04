@@ -8,7 +8,7 @@ COUNT_IMAGES = 1000
 DOWNLOAD_SITE = "https://cataas.com"
 
 
-async def image_download(session, image):
+async def image_download(session, image) -> None:
     async with session.get("/cat") as res:
         ext = res.headers.get("Content-Type").split("/")[1]
 
@@ -18,7 +18,7 @@ async def image_download(session, image):
             print(f"The image {image} is downloaded!")
 
 
-async def main():
+async def main() -> None:
     start_time = time.time()
     tasks = []
 
@@ -26,7 +26,7 @@ async def main():
         for image in range(1, COUNT_IMAGES + 1):
             task = asyncio.create_task(image_download(session, image))
             tasks.append(task)
-            await asyncio.sleep(0.05)
+            # await asyncio.sleep(0.05)
 
         await asyncio.gather(*tasks)
 

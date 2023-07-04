@@ -1,13 +1,12 @@
 import http.client
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
 
 COUNT_IMAGES = 1000
 DOWNLOAD_SITE = "cataas.com"
 
 
-def download_image(image):
+def download_image(image) -> None:
     conn = http.client.HTTPSConnection(DOWNLOAD_SITE)
     conn.request("GET", "/cat")
     res = conn.getresponse()
@@ -16,23 +15,21 @@ def download_image(image):
     write_image(res, image, ext)
 
 
-def write_image(res, image, ext):
+def write_image(res, image, ext) -> None:
     with open(f"thread_images/image{image}.{ext}", "wb") as file:
         file.write(res.read())
         print(f"The image {image} is downloaded!")
 
 
-def main():
+def main() -> None:
     threads = list()
     start_time = time.time()
-    conn = http.client.HTTPSConnection(DOWNLOAD_SITE)
 
     for image in range(1, COUNT_IMAGES + 1):
 
         t1 = threading.Thread(target=download_image, args=(image,))
         t1.start()
-        # t1.join()
-        time.sleep(0.05)
+        # time.sleep(0.05)
 
     for thread in threads:
         thread.join()
