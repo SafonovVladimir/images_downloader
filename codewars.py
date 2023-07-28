@@ -129,15 +129,34 @@
 #
 # print(find_difference([3, 2, 5], [1, 4, 4]))
 
-def oddity(n):
-    result = []
+# def oddity(n):
+#     result = []
+#
+#     for i in range(1, n + 1):
+#         if n % i == 0:
+#             result.append(i)
+#
+#     return "even" if sum(result) % 2 == 0 else "odd"
+#
+#
+# print(oddity(12))
+# print(oddity(4))
+#
+# for key in self.blink_durations.keys() | self.beep_durations.keys() | self.volume_durations.keys() \
+#            | self.blink_durations_led.keys() | self.blink_durations_sys.keys() | self.no_event_durations.keys():
+#     if self.events[key].is_set():
+#         print(f'\033[35;1m             {key=}   set   {self.events[key].is_set()} \033[00m')
 
-    for i in range(1, n + 1):
-        if n % i == 0:
-            result.append(i)
 
-    return "even" if sum(result) % 2 == 0 else "odd"
+def basic_op(operator, value1, value2):
+    operators = {
+        '+': value1 + value2,
+        '-': value1 - value2,
+        '*': int(value1 * value2),
+        '/': int(value1 / value2),
+    }
+    return operators[operator]
 
 
-print(oddity(12))
-print(oddity(4))
+print(basic_op('+', 4, 7))
+print(basic_op('/', 49, 0))
